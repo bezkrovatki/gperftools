@@ -3515,8 +3515,12 @@ sub FetchSymbols {
     my $sym = [];
     $symbols->{$pc} = $sym;
     foreach my $fullname (split("--", $fullnames)) {
+      my $linenum = "?";
+      if ($fullname =~ s/\s+at\s+(\S+)//) {
+        $linenum = $1;
+      }
       my $name = ShortFunctionName($fullname);
-      push(@{$sym}, $name, "?", $fullname);
+      push(@{$sym}, $name, $linenum, $fullname);
     }
   }
   return $symbols;
